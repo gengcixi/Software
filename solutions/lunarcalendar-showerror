@@ -1,0 +1,7 @@
+再写一遍步骤：
+1、创建“/usr/share/locale/en_US/LC_MESSAGES”文件夹，我的en_US下没有LC_MESSAGES文件夹。
+sudo mkdir /usr/share/locale/en_US/LC_MESSAGES
+2、拷贝
+sudo cp /usr/share/locale/zh_CN/LC_MESSAGES/lunar-date.mo /usr/share/locale/en_US/LC_MESSAGES/lunar-date.mo as
+3、重启电脑
+成功。

@@ -1,14 +1,15 @@
-""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " 显示相关
-""""""""""""""""""""""
-" 让配置变更立即生效
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 配置变更立即生效
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
-" 开启语法高亮
-syntax enable
-" 开启语法高亮
-syntax on 
-" 设置历史记录条数
-"set history=65535
+
+"设置编码
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,cp936,big5,euc-jp,euc-kr,latin1 
+set termencoding=utf-8
+set encoding=utf-8
+
 " 检测文件类型
 filetype on
 " 针对不同的文件类型，采用不同的缩进方式
@@ -19,337 +20,99 @@ filetype plugin on
 filetype plugin indent on
 " 文件修改之后自动读入
 set autoread
-" 显示当前横竖线
-set cursorline
-"set cursorcolumn
-" 配色方案
-"set background=dark
-"colorscheme solarized
-"colorscheme molokai
-"colorscheme desert
-colorschem phd
-"" 设置退出Vim之后内容显示在终端屏幕，可以用于查看和复制
-"" 好处:误删什么，如果以前屏幕打开可以用来找回
-"" set t_ti= t_te=
-" 设置vim中可以使用鼠标，防止终端无法拷贝
+" 开启语法高亮
+syntax enable
+" 开启语法高亮
+syntax on 
+
+"显示行号
+set number		"set nu
+
+"突出显示当前行
+set cursorline		"set cul
+"突出显示当前列
+"set cuesorcolumn	"set cuc
+"显示光标所在的当前行的行号，其他行都为相对于该行的相对行号。
+"set relativenumber
+
+"启用鼠标
 "set mouse=a
-" 设置vim可以使用拷贝
-"set mouse=v
-set mouse=n
-" 显示当前行号和列号
-set ruler
+"set selection=exclusive
+"set selectmode=mouse,key
+
+"设置缩进
+"set tabstop=4		"设置Tab长度为4空格
+"set shiftwidth=4	"设置自动缩进长度为4空格
+set autoindent		"继承前一行的缩进方式，适用于多行注释
+" 设置C/C++方式自动对齐
+set cindent
+set smartindent
+
+"不将Tab转换为空格
+set noexpandtab
+" 在行和段开始处使用制表符
+set smarttab
+"不在单词中间进行折行
+set lbr
+
+"设置粘贴模式
+set paste
+
+"显示状态栏和光标当前位置
+set laststatus=2 	"总是显示状态栏
+set ruler		"显示光标当前位置
+" 状态栏
+set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
 " 在状态栏显示正在输入的命令
 set showcmd
 " 左下角显示当前vim模式
 set showmode
-" 命令行（在状态栏下）的高度，默认为1， 这里设置为2
-"set statusline=%<%f\ F2去空行F3函数列表F4鼠标模式切换 %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
-set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
-" 总是显示状态栏
-set laststatus=2
-" 显示行号
-set number
-" 设置代码匹配,包括括号匹配情况  
-set showmatch
-" 开启及时搜索
-set incsearch
-" 设置搜索高亮
-set hls " set hlsearch
-" 设置搜索时忽略大小写
-set ignorecase
-" 当搜索的时候尝试smart
-set smartcase
-" 设置代码折叠
-set foldenable
-""""""""" 折叠方式
-"	manual "手工折叠
-"	indent "缩进折叠
-"	expr   "表达式折叠
-"	diff   "对没有更改的文件折叠
-"	marker "标记折叠
-set foldmethod=indent
-set foldlevel=99
-" 设置C/C++方式自动对齐
-set autoindent
-set cindent
-set smartindent
-set textwidth=200 " 或者:set tw=200自动换行宽度200
-" 设置tab宽度
-set tabstop=8
-set sw=8
-set ts=8
-" 设置自动对齐空格数
-set shiftwidth=8
-
-" 按退格键时可以一次删除4个空格
-"set softtabstop=4
-" 在行和段开始处使用制表符
-set smarttab
-"不要用空格代替制表符
-set noexpandtab
-" 用空格代替制表符
-"set expandtab
-" 不在单词中间折行
-set lbr
-" 设置编码方式  
-set encoding=utf-8  
-" 设置打开文件的编码格式  
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1 
-" 关闭vi的一致性模式，避免以前版本的一些Bug和局限  
+" 不与vi兼容(采用vim自己的操作命令)
 set nocompatible
+"启动256色
+set t_Co=256
+
+"""搜索
+"显示括号匹配
+set showmatch
+"高亮显示匹配结果
+set hlsearch
+"输入搜索模式时，每输入一个字符，就自动跳到第一个匹配的结果。
+set incsearch
+"搜索时忽略大小写
+set ignorecase
+""如果同时打开了ignorecase，
+"那么对于只有一个大写字母的搜索词，
+"将大小写敏感；其他情况都是大小写不敏感。
+"比如，搜索Test时，将不匹配test；搜索test时，将匹配Test
+set smartcase
+
+""设置备份文件、交换文件、操作历史文件的保存位置
+"结尾的//表示生成的文件名带有绝对路径，路径中用%替换目录分隔符，这样可以防止文件重名
+"set backupdir=~/.vim/.backup//  
+"set directory=~/.vim/.swp//
+"set undodir=~/.vim/.undo// 
+
+"自动切换目录
+set autochdir
+
+"底部命令自动补全
+set wildmenu
+set wildmode=longest:list,full
+
+" 设置历史记录条数
+"set history=65535
 
 setlocal list
 set listchars=tab:>-,trail:-
-vmap setlocal nolist
-"hi SpecialKey guifg=darkgrey ctermfg=darkgrey
+
 highlight MyTabSpace guifg=darkgrey ctermfg=darkgrey
 match MyTabSpace /\t\| /
 
-" Font setting
-"if (has("gui_runnig"))
-"	set guifont=Bitstream/ Vera/ Sans/ Mono 10
-"endif
-"set fencs=utf-8,ucs-bom,shift-jis,gb18030,gb2312,cp936
-"set termencoding=utf-8
-"set encoding=utf-8
-"set fileencodings=ucs-bom,utf-8,cp936
-"set fileencoding=utf-8
-"set updatetime=500
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""新文件标题""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
-""定义函数SetTitle，自动插入文件头 
-function! SetTitle() 
-    "如果文件类型为.sh文件 
-    if &filetype == 'sh' 
-        call setline(1,"\#########################################################################") 
-        call append(line("."), "\# File Name: ".expand("%")) 
-        call append(line(".")+1, "\# Author: Cixi.Geng") 
-        call append(line(".")+2, "\# mail: cixi.geng@unisoc.com") 
-        call append(line(".")+3, "\# Created Time: ".strftime("%c")) 
-        call append(line(".")+4, "\#########################################################################") 
-        call append(line(".")+5, "\#!/bin/bash") 
-        call append(line(".")+6, "") 
-    elseif &filetype == 'python' 
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Cixi.Geng") 
-        call append(line(".")+2, "    > Mail: cixi.geng@unisoc.com ") 
-        call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
-        call append(line(".")+4, " ************************************************************************/") 
-        call append(line(".")+5, "\#!/usr/bin/env python")
-        call append(line(".")+5, "\# coding=utf-8")
-        call append(line(".")+5, "")
-    endif
-    if &filetype == 'cpp'
-        call append(line(".")+6, "#include<iostream>")
-        call append(line(".")+7, "using namespace std;")
-        call append(line(".")+8, "")
-    endif
-    if &filetype == 'c'
-        call append(line(".")+6, "#include<stdio.h>")
-        call append(line(".")+7, "")
-    endif
-    "新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
-endfunction 
+map <F2> :setlocal list<cr>
+map <F2><F2> :setlocal nolist<cr>
 
-"" 键盘映射 配置
-" 映射全选+复制 ctrl+a
-
-"Map F4 to set mouse=a
-"Double press F4 set mouse=v
-map <F4> :set mouse=a<cr>
-map <F4><F4> :set mouse=v<cr>
-map <C-A> ggVGY
-map! <C-A> <Esc>ggVGY
-map <F12> gg=G
-" 选中状态下 Ctrl+c 复制
-vmap <C-c> "+y
-"去空行  
-nnoremap <F2> :g/^\s*$/d<CR> 
 "" 原格式复制内容：
 :set pastetoggle=<F9> "等效上面两行内容
-"
-"" 杂项配置
-" 文件修改后自动重新加载
-set autoread
-
-
-" 配置Vundle管理插件
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" 插件列表
-Bundle 'gmarik/vundle'
-"Bundle 'Valloric/YouCompleteMe'
-Bundle 'ctrlpvim/ctrlp.vim'
-""
-"" 配置Taglist
-""
-let Tlist_Auto_Open=0
-let Tlist_Compart_Format=1 "compress mode
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
-"let Tlist_Enable_Fold_Column=0		" 不要显示折叠树
-let Tlist_Enable_Fold_Column=1
-let Tlist_Exit_OnlyWindow=1         "如果taglist窗口是最后一个窗口，则退出vim
-let Tlist_Exist_OnlyWindow=1
-let Tlist_File_Fold_Auto_Close=0	" 不要关闭其他文件的tags
-let Tlist_Inc_Winwidth=0			"如果在文本界面下运行vim,则将窗口长度设为0
-let Tlist_Show_One_File=1           "不同时显示多个文件的tag，只显示当前文件的
-let Tlist_Sort_Type="name"			" 按照名称排序
-let Tlist_WinWidt =30               "设置taglist的宽度
-let Tlist_Use_Right_Window=1		"在右侧窗口中显示taglist窗口
-"let Tlist_Use_Left_Window =1       "在左侧窗口中显示taglist窗口
-set tags=tags
-let g:miniBufExplMapWindowNavVim=1
-let g:miniBufExplMapWindowNavArrows=1
-let g:miniBufExplMapCTabSwitchBufs=1
-let g:miniBufExplModSelTarget=1
-
-"Map F3 to call winmanager explorer
-"Double press F3 call Taglist explorer
-map <F3> :TlistToggle<cr>
-map <F3><F3> :TlistToggle<cr>
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Cscope setting
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has("cscope")
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
-	set csprg=/usr/bin/cscope
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-	set csto=0
-	set cst
-	set nocsverb
-    " add any cscope database in current directory
-	if filereadable("cscope.out")
-		cs add cscope.out
-	" else add database pointed to by environment
-	elseif $CSCOPE_DB != ""
-		cs add $CSCOPE_DB
-	endif
-	set csverb
-    " show msg when any other cscope db added
-    set cscopeverbose  
-endif
-if has("cscope")
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.  
-    "
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
-    " Hitting CTRL-space *twice* before the search type does a vertical 
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
-    nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout 
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout 
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-endif
-"Map <F8> to generate cscop and ctags
-map <F8> :call Do_CsTag()<CR>
-map <F8><F8> :call Add_CsTag()<CR>
-function! Do_CsTag()
-    silent! execute "!ctags -R '.'"
-    if(executable('cscope') && has("cscope") )
-        silent! execute "!find -L `pwd` -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.java' -o -name '*.cs' -o     -name '*.cxx' -o -name '*.hxx'> cscope.files -o -name '*.hpp' -o -name '*.py'"
-    endif
-    silent! execute "!cscope -bq"
-    silent! execute "call Add_CsTag()"
-endf
-function! Add_CsTag()
-    if filereadable("cscope.out")
-        execute "cs add cscope.out"
-        execute "set tags+=./tags"
-    endif
-endf
-silent! execute "call Add_CsTag()"
+		
+map <F4> :g/^\s+$/d<cr>

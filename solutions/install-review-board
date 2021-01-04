@@ -1,0 +1,42 @@
+iInstalling Review Board on Debian/Ubuntu Linux
+There are no official Debian/Ubuntu packages for Review Board. Instead, we'll walk you through installing using our official Python packages.
+
+First, install all the required dependencies:
+
+sudo apt-get install build-essential python-dev python-setuptools memcached
+sudo apt-get install libffi-dev libjpeg-dev libssl-dev patch
+sudo pip install -U pip
+If pip isn't installed, you can install it with:
+
+sudo easy_install pip
+Install support for the revision control systems we support. These are optional.
+
+sudo apt-get install cvs git-core subversion python-svn
+sudo pip install mercurial p4python
+Install support for your database.
+
+For MySQL:
+
+sudo apt-get install python-mysqldb
+For PostgreSQL:
+
+sudo pip install psycopg2
+Now you can install Review Board!
+
+sudo pip install ReviewBoard
+Follow our guide to creating a Review Board site.
+For a more detailed guide to all the dependencies, including additional optional dependencies not mentioned here, please see our complete installation instructions.
+
+You can also try the third-party Review Board Installer, provided by Bitnami. It even comes with Power Pack! Please note that any support issues with Bitnami's Review Board should be raised with Bitnami rather than the Review Board project.
+
+Installing RBTools on Developer Machines
+RBTools is our suite of command line tools that makes it easy to work with Review Board and write scripts using our API. It's compatible with Linux, Windows, and MacOS X.
+
+Developers will primarily work with rbt post. This is used to post new review requests from any in-development code, and will update existing review requests with any new code changes.
+
+To get started, install RBTools and configure it for your repositories.
+
+Free Community Support
+If you have any questions or problems, you can reach out to us on our Community Discussion List. This list is actively monitored by the developers of Review Board, as well as a community of third-party developers, administrators, and other users.
+
+We are usually quick to respond. However, if you need guaranteed fast, confidential, one-on-one support, we recommend that you purchase a support contract.

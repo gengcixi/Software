@@ -1,0 +1,90 @@
+**一安装命令：**
+
+sudo  apt-get    install   ser2net
+
+ 
+
+**二安装成功后：**
+
+wzz@debian:/etc$  whereis  ser2net
+
+ser2net: /usr/sbin/ser2net   /etc/ser2net.conf    /usr/share/man/man8/ser2net.8.gz
+
+ 
+
+**三配置文件**：
+
+vim  /etc/ser2net.conf
+
+如果有修改这个配置文件，需要重启ser2net服务。sudo service ser2net restart  重启服务。
+
+ 
+
+介绍部分：
+
+\#This is the configuration file for ser2net.  It has the following format:   //这是ser2net的配置文件，格式如下
+
+\#  **<TCP port>:<state>:<timeout>:<device>:<options>**
+
+实例：
+
+**2003:raw:0:/dev/ttySAC1:115200 8DATABITS EVEN 1STOPBIT -RTSCTS -XONXOFF LOCAL**
+
+ 
+
+**port**：   tcp/ip的端口号，用于接收该设备上来的连接，可以加IP信息如 127.0.0.1，2000  或者localhost,2000;  如果这里指定了IP则只能绑定在这个固定的IP上了；
+
+**state** ：  raw/  rawlp/  telnet/  off   四种可选状态； off: 禁止该端口的连接， 
+
+**off**    关闭端口
+
+**raw**  原始数据
+
+**rawlp**   
+
+**telnet**  使用telnet协议时用
+  
+
+**timeout：**  超时，以秒为单位，；  当没有活动的连接时。可以设置这个时间关闭端口；常写0，关闭该功能，即不会超时；
+
+**<device>**  指定映射本机的哪个串口 **This  must be in the form of /dev/<device>**  
+
+**<options>options** 设置波特率，奇偶校验，停止位，数据位，是否开流控，硬件流控，等
+**#       Sets  operational  parameters  for the serial port.
+ \#       Options 300, 1200, 2400, 4800, 9600, 19200, 38400,
+ \#       57600, 115200 set the various baud rates.  EVEN,
+ \#       ODD, NONE set the parity.  1STOPBIT, 2STOPBITS set
+ \#       the number of stop bits.  7DATABITS, 8DATABITS set
+ \#       the number of data bits.  [-]XONXOFF turns on (-
+ \#       off) XON/XOFF support.  [-]RTSCTS turns on (- off)
+ \#       hardware flow control, [-]LOCAL turns off (- on)
+ \#       monitoring of the modem lines, and
+ \#       [-]HANGUP_WHEN_DONE turns on (- off) lowering the
+ \#       modem control lines when the connextion is done. 
+ \#       NOBREAK disables automatic setting of the break
+ \#       setting of the serial port.
+ \#       The "remctl" option allow remote control (ala RFC
+ \#       2217) of serial-port configuration.  A banner name
+ \#       may also be specified, that banner will be printed
+ \#       for the line.  If no banner is given, then no
+ \#       banner is printed.**
+
+ 
+
+**下面是一个配置例子，通过telnet协议，网口转usb，再通过usb转串口接线，转串口**
+
+**20053:telnet:14400:/dev/ttyUSB5:115200 8DATABITS NONE 1STOPBIT LOCAL banner**
+
+LOCAL 必须添加，否则使用telnet登陆会闪退。提示链接被关闭的信息
+
+use : telnet localhost 20053 , or telnet 192.168.1.100 20053
+
+ 
+
+**四：配置好配置文件之后，设置开机启动**
+
+我们知道linux系统开机后的会启动一系列的脚本， 最后的最后会启动  /etc/rc.local  脚本；
+
+这个脚本是留给用户自定义的，所以我们可以在这个脚本的 exit(0)之前添启动ser2net的命令；
+
+/sbin/ser2net  -c   /etc/ser2net.conf  &     后台启动ser2net   -c指定使用的配置文件

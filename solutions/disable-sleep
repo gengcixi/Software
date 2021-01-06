@@ -1,0 +1,21 @@
+## Debian9/Ubuntu16.04禁止休眠
+
+### 方法一
+
+禁止休眠
+
+```shell
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+解除禁止休眠
+
+```shell
+sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+### 方法二
+
+编辑 /etc/default/grub文件，将 GRUB_CMDLINE_LINUX_DEFAULT="quiet"改为 	GRUB_CMDLINE_LINUX_DEFAULT="quiet acpi=off apm=off"
+执行 sudo update-grub命令
+

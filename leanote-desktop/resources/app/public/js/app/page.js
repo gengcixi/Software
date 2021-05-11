@@ -477,7 +477,7 @@ function initEditor() {
         ], // nonbreaking
 
         toolbar1: "formatselect | forecolor backcolor | bold italic underline strikethrough | image leaui_mindmap | leanote_code leanote_inline_code | bullist numlist | alignleft aligncenter alignright alignjustify",
-        toolbar2: "outdent indent blockquote | link unlink | table | hr removeformat | subscript superscript |searchreplace | pastetext | leanote_ace_pre | fontselect fontsizeselect",
+        toolbar2: "outdent indent blockquote | link unlink | table | hr removeformat | subscript superscript | searchreplace | pastetext | leanote_ace_pre | fontselect fontsizeselect",
 
         // 使用tab键: http://www.tinymce.com/wiki.php/Plugin3x:nonbreaking
         // http://stackoverflow.com/questions/13543220/tiny-mce-how-to-allow-people-to-indent
@@ -1409,6 +1409,9 @@ function showLocalAccountWarning() {
 function initPage(initedCallback) {
     console.log('init page');
 
+    // 不要显示顶部菜单
+    gui.Menu.setApplicationMenu(null)
+
     // 笔记本, 事件, menu初始化
     Notebook.init();
     // 笔记
@@ -1439,9 +1442,7 @@ function initPage(initedCallback) {
     gui.win.on('blur', function() {
     });
     */
-    // var ipc = require('ipc');
-    const { ipcRenderer } = require('electron');
-    ipc = ipcRenderer;
+    const ipc = electron.ipcRenderer;
     ipc.on('focusWindow', function(event, arg) {
         $('body').removeClass('blur');
     });
@@ -2081,10 +2082,14 @@ function userMenu(allUsers) {
 
     Pren.init();
 
-    if (isMac() || debug) {
+    if (isMac() || isDebug) {
         setMacTopMenu();
     }
-    if (debug) {
+    else {
+        gui.Menu.setApplicationMenu(null)
+    }
+
+    if (isDebug) {
         setTimeout(function () {
             gui.win.toggleDevTools();
         }, 3000)
